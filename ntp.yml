@@ -57,5 +57,5 @@
         - time_setup
         - initial_setup
 
-   - name: Save a local copy for reference
-     fetch: src=/etc/ntp.conf dest=localconfig
+    - name: Save a local copy for reference
+      fetch: src=/etc/ntp.conf dest=localconfig
