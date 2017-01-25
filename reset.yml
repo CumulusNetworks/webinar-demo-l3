@@ -36,12 +36,6 @@
     - name: Reload interfaces
       command: ifreload -a
 
-    - name: Stop netq-agent
-      service: name=netq-agent state=stopped
-
-    - name: Wipe out netq-agent log
-      file: name=/var/log/netq-agent.log state=absent
-
 - hosts: 'server*'
   tasks:
     - name: Reload interfaces
