@@ -9,6 +9,7 @@
         auto {{ item }}
         iface {{ item }}
            bridge-access {{ default_vlan }}
+      validate: ifup -s -a -i %s
 
     become: true
     with_items: "{{ ansible_interfaces }}"
@@ -32,6 +33,7 @@
           bridge-access {{ default_vlan }}
           post-up ip link set bond-{{ item }} promisc on
 
+      validate: ifup -s -a -i %s
     become: true
     with_items: "{{ ansible_interfaces }}"
     when: "{{ 'leaf' in group_names and item|match(leaf_to_server_ports) and dual_attach_hosts }}"
@@ -114,6 +116,7 @@
         auto {{ item }}
         iface {{ item }}
 
+      validate: ifup -s -a -i %s
     become: true
     with_items: "{{ ansible_interfaces }}"
     when: "{{ 'leaf' in group_names and item|match(clag_peer_ports) and dual_attach_hosts }}"
@@ -143,6 +146,8 @@
           clagd-priority {{ my_clag_prio|trim }}
           clagd-backup-ip {{ clag_backup_ip }}
           clagd-args --vm
+
+      validate: ifup -s -a -i %s
     become: true
     when: "{{ 'leaf' in group_names and dual_attach_hosts }}"
     tags:
@@ -218,6 +223,7 @@
           address {{ my_br_ip }}
           address-virtual 00:00:5e:00:01:01 {{ my_br_vrr_ip|trim }}
 
+      validate: ifup -s -a -i %s
     become: true
     when: "{{ 'leaf' in group_names and dual_attach_hosts }}"
     tags:
@@ -235,11 +241,13 @@
           bridge-vlan-aware yes
           bridge-vids {{ default_vlan }}
           bridge-stp on
-          bridge-ports glob {{ leaf_to_server_ports }}
+          bridge-ports regex {{ leaf_to_server_ports }}
 
         auto bridge.{{ default_vlan }}
         iface bridge.{{ default_vlan }} inet static
           address {{ my_br_ip }}
+
+      validate: ifup -s -a -i %s
 
     become: true
     when: "{{ 'leaf' in group_names and not dual_attach_hosts }}"
