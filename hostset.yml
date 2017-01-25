@@ -113,5 +113,5 @@
       notify: Reboot to bring up bonds
 
 
-   - name: Save a local copy of the interfaces for reference
-     fetch: src=/etc/network/interfaces dest=localconfig
+    - name: Save a local copy of the interfaces for reference
+      fetch: src=/etc/network/interfaces dest=localconfig
