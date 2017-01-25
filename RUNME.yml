@@ -2,7 +2,7 @@
 - hosts: localhost
   tasks:
   - name: Create a dir for storing rendered configs locally
-    file: path=localconfig state=directory
+    file: path=localconfig state=directory owner=cumulus
 
 - hosts: 'leaf*'
   any_errors_fatal: true
